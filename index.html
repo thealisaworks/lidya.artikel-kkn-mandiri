@@ -1,0 +1,164 @@
+<?php
+// === LOGIKA UPLOAD FOTO === //
+$fotoPenulis = "uploads/foto_penulis.jpg";
+$fotoDok = "uploads/foto_dokumentasi.jpg";
+
+// jika folder uploads belum ada, buat
+if(!file_exists("uploads")){ mkdir("uploads", 0777, true); }
+
+// cek upload penulis
+if(isset($_FILES['uploadPenulis'])){
+    move_uploaded_file($_FILES['uploadPenulis']['tmp_name'], $fotoPenulis);
+}
+// cek upload dokumentasi
+if(isset($_FILES['uploadDokumentasi'])){
+    move_uploaded_file($_FILES['uploadDokumentasi']['tmp_name'], $fotoDok);
+}
+?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1200, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>KKN UIN Jambi | Gerakan Literasi & Komunikasi Baik</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* === CSS ASLI (tidak diubah) === */
+    :root{--primary:#0a2e6e;--primary-700:#07265c;--accent:#e30613;--ink:#1c1f24;--muted:#6a7280;--bg:#f4f6fb;--card:#ffffff;--shadow:0 8px 28px rgba(14,22,42,.10);--radius:14px;--radius-sm:10px;--maxw:1180px;}
+    *{box-sizing:border-box}html,body{margin:0;padding:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    a{color:var(--primary);text-decoration:none}a:hover{text-decoration:underline}
+    .topbar{background:linear-gradient(90deg,var(--primary),#0e49a0);color:#fff;box-shadow:var(--shadow);}
+    .topbar-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .logo{width:44px;height:44px;border-radius:10px;background:#fff;display:grid;place-items:center;color:var(--primary);font-weight:800;box-shadow:0 6px 18px rgba(0,0,0,.18);}
+    .brand .name{font-weight:800;font-size:20px;letter-spacing:.3px}
+    .nav{display:flex;gap:22px}.nav a{color:#e8efff;font-weight:600;opacity:.95}.nav a:hover{opacity:1}
+    .ticker{background:#061b47;color:#bcd1ff;font-weight:600;border-top:1px solid rgba(255,255,255,.12);}
+    .ticker-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:18px;padding:8px 18px}
+    .badge{background:var(--accent);color:#fff;padding:6px 10px;border-radius:999px;font-size:12px;letter-spacing:.5px}
+    .ticker-marquee{white-space:nowrap;overflow:hidden;position:relative;flex:1}
+    .ticker-marquee span{display:inline-block;padding-left:100%;animation:marq 32s linear infinite}
+    @keyframes marq{to{transform:translateX(-100%)}}
+    .wrap{max-width:var(--maxw);margin:24px auto;display:grid;grid-template-columns:1.9fr .9fr;gap:24px}
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .article{padding:28px}
+    .breadcrumb{font-size:13px;color:var(--muted);margin-bottom:8px}
+    .headline{font-size:28px;line-height:1.15;margin:6px 0 14px;font-weight:800;letter-spacing:.1px;color:var(--primary-700);}
+    .subhead{font-size:15px;color:#2b3140;margin:0 0 10px;font-weight:500}
+    .meta{display:flex;align-items:center;gap:16px;background:#f0f4ff;border:1px solid #e4ebff;padding:14px;border-radius:var(--radius-sm);margin:14px 0 22px;}
+    .author-wrap{display:flex;align-items:center;gap:14px;flex:1}
+    .author-photo{width:120px;height:120px;border-radius:18px;object-fit:cover;border:3px solid #dfe8ff;box-shadow:0 8px 20px rgba(10,46,110,.18);}
+    .author-info strong{display:block;font-size:16px}.author-info .small{font-size:13px;color:var(--muted)}
+    .meta .btn{margin-left:auto}
+    .btn{background:var(--primary);color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;box-shadow:0 6px 16px rgba(10,46,110,.18);transition:transform .08s ease, filter .2s ease;}
+    .btn:hover{filter:brightness(1.05)}.btn:active{transform:translateY(1px)}
+    .btn-outline{background:#fff;color:var(--primary);border:2px solid var(--primary);box-shadow:none;}
+    .progress{height:5px;background:#e9eefc;border-radius:999px;overflow:hidden;margin:0 0 18px}
+    .progress .bar{height:100%;width:0;background:linear-gradient(90deg,#0e49a0,#36a3ff);transition:width .2s}
+    .article p{font-size:16px;color:#2b3140;margin:14px 0}
+    .article ol{margin:8px 0 18px 20px}.article li{margin:8px 0}
+    .doc-photo{display:block;margin:18px auto;max-width:70%;border-radius:14px;border:1px solid #e7eaf4;box-shadow:0 10px 24px rgba(9,30,66,.08);}
+    .center{text-align:center}
+    .share{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 4px}
+    .chip{background:#eef3ff;border:1px solid #d6e3ff;color:#11306b;font-weight:700;border-radius:999px;padding:8px 12px;font-size:13px}
+    .share .btn{padding:9px 12px;border-radius:999px}
+    .aside{padding:18px}.aside h3{margin:4px 0 14px;font-size:16px;color:#0b265e;letter-spacing:.3px}
+    .list{display:flex;flex-direction:column;gap:12px}
+    .item{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;background:#fff;border:1px solid #eef1f7;border-radius:12px;padding:10px}
+    .thumb{width:100%;height:72px;object-fit:cover;border-radius:10px}
+    .item a{font-weight:700;color:#1f2941}.item small{display:block;color:var(--muted);margin-top:4px}
+    .footer{max-width:var(--maxw);margin:28px auto 34px;padding:20px;border-radius:var(--radius);background:#0b1f4b;color:#cfe0ff;text-align:center;box-shadow:var(--shadow)}
+    .footer small{color:#9fb8ff}
+    input[type="file"]{display:none}
+  </style>
+</head>
+<body>
+<!-- HEADER -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><div class="logo">LA</div><div class="name">PORTAL BERITA BY. LIDYA AGUSTIN</div></div>
+    <nav class="nav"><a href="#">Beranda</a><a href="#">Nasional</a><a href="#">Daerah</a><a href="#">Pendidikan</a><a href="#">Program KKN</a></nav>
+  </div>
+  <div class="ticker"><div class="ticker-inner"><span class="badge">BREAKING</span><div class="ticker-marquee"><span>Gerakan Literasi dan Komunikasi Baik: Mahasiswa KKN UIN Sulthan Thaha Saifuddin Jambi di MIN 04 Pematang Gajah sebuah artikel yang di tulis oleh mahasiswa UIN STS jambi oleh Lidya Agustin</span></div></div></div>
+</div>
+
+<!-- MAIN -->
+<div class="wrap">
+  <article class="card article" id="artikel">
+    <div class="breadcrumb">Beranda › Pendidikan › KKN</div>
+    <h1 class="headline">Gerakan Literasi dan Komunikasi Baik: Mahasiswa KKN UIN Sulthan Thaha Saifuddin Jambi di MIN 04 Pematang Gajah</h1>
+    <p class="subhead">Mahasiswa KKN UIN Sulthan Thaha Saifuddin Jambi dorong budaya baca dan komunikasi santun di Muaro Jambi.</p>
+
+    <div class="meta">
+      <div class="author-wrap">
+        <img id="fotoPenulis" class="author-photo" src="<?php echo file_exists($fotoPenulis)?$fotoPenulis:'https://via.placeholder.com/300x300.png?text=FOTO+PENULIS'; ?>" alt="Foto Penulis">
+        <div class="author-info">
+          <strong>LIDYA AGUSTIN</strong>
+          <span class="small">Program Studi Komunikasi Penyiaran Islam · Fakultas Dakwah</span>
+          <div style="margin-top:6px"><a href="https://instagram.com/lidyaldyaaa" target="_blank" rel="noopener">@ig.lidya agustin</a></div>
+        </div>
+      </div>
+      <form method="post" enctype="multipart/form-data">
+        <input type="file" name="uploadPenulis" id="uploadPenulis" accept="image/*" onchange="this.form.submit()">
+        <button type="button" class="btn" onclick="document.getElementById('uploadPenulis').click()">Upload Foto</button>
+      </form>
+    </div>
+
+    <div class="progress"><div class="bar" id="readBar"></div></div>
+
+    <!-- ISI ARTIKEL LENGKAP (sesuai kode asli, tidak saya potong) -->
+    <p><strong>Muaro Jambi</strong> – Kuliah Kerja Nyata (KKN) merupakan salah satu bentuk pengabdian mahasiswa kepada masyarakat melalui pendekatan interdisipliner. Tahun 2025 ini, mahasiswa Universitas Islam Negeri (UIN) Sulthan Thaha Saifuddin Jambi melaksanakan KKN di MIN 04 Pematang Gajah, Muaro Jambi, dengan mengusung program Gerakan Literasi serta Membentuk Gaya Berkomunikasi yang Baik.</p>
+    <p>Sekolah dasar dipilih sebagai lokasi pengabdian karena pendidikan dasar merupakan tahap penting dalam membentuk karakter, pola pikir, dan keterampilan sosial anak. Literasi menjadi salah satu fokus utama, mengingat kemampuan membaca, menulis, dan memahami informasi merupakan fondasi untuk membangun pola pikir kritis serta keterampilan komunikasi yang baik.</p>
+    <p>Sayangnya, budaya literasi di kalangan siswa sekolah dasar masih relatif rendah. Hal ini dipengaruhi oleh minimnya akses bacaan menarik, rendahnya motivasi membaca, serta kurangnya pembiasaan literasi dalam kehidupan sehari-hari. Di sisi lain, perkembangan teknologi dan media sosial juga berpengaruh pada gaya komunikasi anak-anak yang tidak selalu sesuai dengan nilai-nilai positif.</p>
+    <p>Melihat tantangan tersebut, mahasiswa KKN berupaya menghadirkan solusi melalui kegiatan edukatif dan kreatif yang tidak hanya mendukung capaian akademik siswa, tetapi juga menumbuhkan karakter Islami yang santun dan komunikatif.</p>
+
+    <h2>Rangkaian Program Kegiatan</h2>
+    <p>Program KKN di MIN 04 Pematang Gajah dilaksanakan sejak 07 Juli hingga 20 Agustus 2025. Beberapa kegiatan yang telah dijalankan di antaranya:</p>
+    <ol>
+      <li><strong>Koordinasi dan Perizinan</strong> – Pada minggu pertama, mahasiswa melakukan audiensi dengan pihak sekolah untuk meminta izin pelaksanaan KKN.</li>
+      <li><strong>Pengumpulan Jadwal Belajar</strong> – Minggu kedua difokuskan pada koordinasi bersama wali kelas untuk menyesuaikan jadwal kegiatan literasi dengan agenda sekolah.</li>
+      <li><strong>Penyuluhan Literasi Berbasis Komunikasi</strong> – Minggu ketiga, mahasiswa memberikan pemahaman mengenai pentingnya membaca, menulis, serta berbicara dengan baik.</li>
+      <li><strong>Praktik Literasi dan Komunikasi</strong> – Pada minggu keempat, siswa diberikan kesempatan untuk praktik langsung melalui tugas membaca, menulis cerita pendek, dan latihan berbicara di depan kelas.</li>
+      <li><strong>Pendampingan Belajar dan Ekstrakurikuler</strong> – Minggu kelima hingga keenam, mahasiswa turut membantu proses belajar mengajar dan kegiatan ekstrakurikuler.</li>
+      <li><strong>Penutupan dan Pemberian Kenang-Kenangan</strong> – Minggu ketujuh menjadi momen penutup dengan serangkaian kegiatan apresiasi dan pemberian kenang-kenangan untuk pihak sekolah.</li>
+    </ol>
+
+    <div class="center">
+      <img id="fotoDokumentasi" class="doc-photo" src="<?php echo file_exists($fotoDok)?$fotoDok:'https://via.placeholder.com/1000x620.png?text=FOTO+DOKUMENTASI+KEGIATAN'; ?>" alt="Foto Dokumentasi Kegiatan">
+      <form method="post" enctype="multipart/form-data" style="margin-top:8px">
+        <input type="file" name="uploadDokumentasi" id="uploadDokumentasi" accept="image/*" onchange="this.form.submit()">
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('uploadDokumentasi').click()">Upload Dokumentasi</button>
+      </form>
+    </div>
+
+    <h2>Harapan dan Manfaat</h2>
+    <p>Dengan adanya program ini, mahasiswa KKN berharap mampu menumbuhkan semangat literasi serta membentuk gaya komunikasi yang santun, percaya diri, dan Islami bagi siswa MIN 04 Pematang Gajah. Selain itu, kegiatan ini juga menjadi ajang bagi mahasiswa untuk meningkatkan keterampilan komunikasi, kerja sama, serta pengabdian sosial.</p>
+    <p>Pihak sekolah menyambut baik kehadiran mahasiswa KKN, karena program ini turut membantu kegiatan administrasi, proses belajar mengajar, serta mempererat kemitraan antara perguruan tinggi dan lembaga pendidikan.</p>
+    <p>Melalui gerakan literasi dan komunikasi ini, diharapkan siswa tidak hanya cerdas secara akademik, tetapi juga memiliki karakter kuat yang akan menjadi bekal berharga dalam kehidupan mereka ke depan.</p>
+
+    <div class="share">
+      <span class="chip">Muaro Jambi</span><span class="chip">Literasi</span><span class="chip">Pendidikan</span>
+      <button class="btn" onclick="alert('Bagikan ke Facebook')">Facebook</button>
+      <button class="btn" onclick="alert('Bagikan ke X/Twitter')">Twitter</button>
+      <button class="btn" onclick="alert('Bagikan ke WhatsApp')">WhatsApp</button>
+    </div>
+  </article>
+
+  <aside class="card aside">
+    <h3>Berita Terkini</h3>
+    <div class="list">
+      <div class="item"><img class="thumb" src="https://images.unsplash.com/photo-1523246123010-6f3f70f9f2b9?q=80&w=600&auto=format&fit=crop"><div><a href="#">Kelas Inspirasi: Teknik Public Speaking untuk Siswa SD</a><small>Program KKN · 26 Agustus 2025</small></div></div>
+      <div class="item"><img class="thumb" src="https://images.unsplash.com/photo-1529078155058-5d716f45d604?q=80&w=600&auto=format&fit=crop"><div><a href="#">Pojok Baca Digital Diresmikan di Perpustakaan Sekolah</a><small>Pendidikan · 24 Agustus 2025</small></div></div>
+      <div class="item"><img class="thumb" src="https://images.unsplash.com/photo-1510936111840-65e151ad71bb?q=80&w=600&auto=format&fit=crop"><div><a href="#">Pelatihan Guru: Literasi Informasi & Etika Komunikasi</a><small>Daerah · 22 Agustus 2025</small></div></div>
+    </div>
+  </aside>
+</div>
+
+<footer class="footer">
+  <div><strong>UIN Jambi Newsroom</strong> · Jl. Jambi – Muaro Bulian No.KM. 16, Simpang Sungai Duren, Kec. Jambi luar kota, kabupaten Muaro Jambi</div>
+  <small>© 2025 Oleh Lidya Agustin, Jambi — All Rights Reserved.</small>
+</footer>
+
+<script>
+const readBar=document.getElementById('readBar');const artikelEl=document.getElementById('artikel');
+function onScroll(){const rect=artikelEl.getBoundingClientRect();
